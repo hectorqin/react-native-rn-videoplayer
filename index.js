@@ -920,7 +920,7 @@ class VideoPlayer extends React.Component {
 
             {/* 底部栏 */}
             <Animated.View
-                style={{ width: this.state.width, bottom: bottomContsBottom, opacity: this.state.opacity, zIndex: 99999, position: "absolute", height: 50}}>
+                style={{ width: this.state.width, bottom: bottomContsBottom, opacity: this.state.opacity, zIndex: 999, position: "absolute", height: 50}}>
                 {/* 底部阴影 */}
                 <LinearGradient
                     colors={['rgba(0,0,0,0)', 'rgba(0,0,0,0.1)', 'rgba(0,0,0,0.4)']}
@@ -928,7 +928,7 @@ class VideoPlayer extends React.Component {
 
                 <View style={{ height: 40, width: this.state.width, flexDirection: "row", flexWrap: "nowrap" }}>
                     {/* 底部左侧 */}
-                    <View style={{ flexDirection: "row", justifyContent: "flex-start", zIndex: 10000, paddingHorizontal: 5 }}>
+                    <View style={{ flexDirection: "row", justifyContent: "flex-start",  paddingHorizontal: 5 }}>
                         {/* 播放暂停 */}
                         {
                             <TouchableOpacity activeOpacity={1} style={{ padding: 10 }} onPress={() => {
@@ -976,7 +976,7 @@ class VideoPlayer extends React.Component {
                     />
 
                     {/* 底部右侧按钮 */}
-                    <View style={{ flexDirection: "row", justifyContent: "flex-end", zIndex: 10000, paddingHorizontal: 5 }}>
+                    <View style={{ flexDirection: "row", justifyContent: "flex-end", paddingHorizontal: 5 }}>
                         {/* 选集 */}
                         {
                             this.props.continuous && !this.state.smallP &&
