@@ -1059,13 +1059,13 @@ class VideoPlayer extends React.Component {
           >
             {/* 自定义顶部右侧开始位置按钮 */}
             {this.props.renderTopRightStart && this.props.renderTopRightStart()}
-            {this.props.showStoreComponent && (
+            {this.props.showCollectComponent && (
               <TouchableOpacity
                 style={{ padding: 10 }}
-                onPress={this.props.onStore && this.props.onStore}
+                onPress={this.props.onCollectClick && this.props.onCollectClick()}
               >
-                {this.props.storeComponent ? (
-                  this.props.storeComponent()
+                {this.props.collectComponent ? (
+                  this.props.collectComponent()
                 ) : (
                   <SvgVideoScang height="20" width="20" />
                 )}
@@ -1074,10 +1074,10 @@ class VideoPlayer extends React.Component {
             {this.props.showMoreSettingComponent && (
               <TouchableOpacity
                 style={{ padding: 10 }}
-                onPress={this.props.onMoreFun && this.props.onMoreFun()}
+                onPress={this.props.onMoreSettingClick && this.props.onMoreSettingClick()}
               >
-                {this.props.moreSetting ? (
-                  this.props.moreSetting()
+                {this.props.moreSettingComponent ? (
+                  this.props.moreSettingComponent()
                 ) : (
                   <SvgVideoSetting height="20" width="20" />
                 )}
