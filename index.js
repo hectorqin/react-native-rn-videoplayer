@@ -999,6 +999,7 @@ class VideoPlayer extends React.Component {
             width: this.state.width,
             opacity: this.state.opacity,
             height: 30,
+            flexDirection: "row"
           }}
         >
           {/* 顶部阴影 */}
@@ -1033,6 +1034,18 @@ class VideoPlayer extends React.Component {
               )}
             </TouchableOpacity>
           )}
+          {/* 视频标题 */}
+          {this.props.title && (
+            <View style={{
+              position: "absolute",
+              top: topContsTop,
+              left: preShowSmallCont ? 50 : 5,
+              zIndex: 10,
+              paddingVertical: 10,
+            }}>
+              <Text style={{ color: "#fff" }}>{this.props.title}</Text>
+            </View>
+          )}
           {/* 收藏|更多 */}
           <View
             style={{
@@ -1046,7 +1059,7 @@ class VideoPlayer extends React.Component {
           >
             {this.props.showStoreComponent && (
               <TouchableOpacity
-                style={{ padding: 8 }}
+                style={{ padding: 10 }}
                 onPress={this.props.onStore && this.props.onStore}
               >
                 {this.props.storeComponent ? (
@@ -1058,7 +1071,7 @@ class VideoPlayer extends React.Component {
             )}
             {this.props.showMoreSettingComponent && (
               <TouchableOpacity
-                style={{ padding: 8, marginLeft: 1 }}
+                style={{ padding: 10 }}
                 onPress={this.props.onMoreFun && this.props.onMoreFun()}
               >
                 {this.props.moreSetting ? (
@@ -1139,7 +1152,7 @@ class VideoPlayer extends React.Component {
                 this.props.nextBtnFun && (
                   <TouchableOpacity
                     activeOpacity={1}
-                    style={{ padding: 10, marginLeft: 5 }}
+                    style={{ padding: 10 }}
                     onPress={() => {
                       this.props.nextBtnFun();
                     }}
