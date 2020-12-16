@@ -1057,6 +1057,8 @@ class VideoPlayer extends React.Component {
               zIndex: 10,
             }}
           >
+            {/* 自定义顶部右侧开始位置按钮 */}
+            {this.props.renderTopRightStart && this.props.renderTopRightStart()}
             {this.props.showStoreComponent && (
               <TouchableOpacity
                 style={{ padding: 10 }}
@@ -1081,7 +1083,8 @@ class VideoPlayer extends React.Component {
                 )}
               </TouchableOpacity>
             )}
-            {this.props.renderTopRight && this.props.renderTopRight()}
+            {/* 自定义顶部右侧结束位置按钮 */}
+            {this.props.renderTopRightEnd && this.props.renderTopRightEnd()}
           </View>
         </Animated.View>
 
@@ -1188,6 +1191,8 @@ class VideoPlayer extends React.Component {
                 paddingHorizontal: 5,
               }}
             >
+              {/* 自定义底部右侧开始位置按钮 */}
+              {this.props.renderBottomRightStart && this.props.renderBottomRightStart()}
               {/* 选集 */}
               {this.props.continuous && !this.state.smallP && (
                 <TouchableOpacity
@@ -1221,9 +1226,14 @@ class VideoPlayer extends React.Component {
                   <SvgVideoSmallBox height="20" width="20" />
                 )}
               </TouchableOpacity>
+              {/* 自定义底部右侧结束按钮 */}
+              {this.props.renderBottomRightEnd && this.props.renderBottomRightEnd()}
             </View>
           </View>
         </Animated.View>
+
+        {/* 自定义 controller */}
+        {this.props.customController && this.props.customController()}
       </>
     );
   }
