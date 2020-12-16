@@ -677,7 +677,11 @@ class VideoPlayer extends React.Component {
 
     //激活自动隐藏
     activateAutoHide = () => {
-        this.TimeHideConts = setTimeout(this.fastHideConts, 5000);
+        if (this.props.autoHide === false) {
+            this.TimeHideConts = 0;
+        } else {
+            this.TimeHideConts = setTimeout(this.fastHideConts, this.props.autoHide || 5000);
+        }
     }
 
     //重置播放
@@ -924,10 +928,10 @@ class VideoPlayer extends React.Component {
 
                 <View style={{ height: 40, width: this.state.width, flexDirection: "row", flexWrap: "nowrap" }}>
                     {/* 底部左侧 */}
-                    <View style={{ flexDirection: "row", justifyContent: "flex-start" }}>
+                    <View style={{ flexDirection: "row", justifyContent: "flex-start", zIndex: 10000, paddingHorizontal: 5 }}>
                         {/* 播放暂停 */}
                         {
-                            <TouchableOpacity activeOpacity={1} style={s.touchs} onPress={() => {
+                            <TouchableOpacity activeOpacity={1} style={{ padding: 10 }} onPress={() => {
                                 if (this.state.paused) {
                                     if (!showOpenVip) {
                                         this.rePlay(true, false)
@@ -942,13 +946,13 @@ class VideoPlayer extends React.Component {
 
                         {/* 下一集 */}
                         {
-                            this.props.continuous && !this.state.smallP &&
+                            this.props.continuous && !this.state.smallP && this.props.nextBtnFun &&
                             <TouchableOpacity
-                                activeOpacity={this.props.nextBtnFun ? 0.5 : 1}
-                                style={{ padding: 10, width: 40, bottom: 0, right: 5, zIndex: 9999, alignSelf: "flex-end", marginLeft: 10 }}
-                                onPress={() => { this.props.nextBtnFun && this.props.nextBtnFun() }}
+                                activeOpacity={1}
+                                style={{ padding: 10, marginLeft: 5 }}
+                                onPress={() => { this.props.nextBtnFun() }}
                             >
-                                <SvgVideoNextBtn height="20" width="22" fill={this.props.nextBtnFun ? "#ffffff" : "#626262"} />
+                                <SvgVideoNextBtn height="20" width="20" fill="#ffffff"/>
                             </TouchableOpacity >
                         }
                     </View>
@@ -972,13 +976,13 @@ class VideoPlayer extends React.Component {
                     />
 
                     {/* 底部右侧按钮 */}
-                    <View style={{ flexDirection: "row", justifyContent: "flex-end" }}>
+                    <View style={{ flexDirection: "row", justifyContent: "flex-end", zIndex: 10000, paddingHorizontal: 5 }}>
                         {/* 选集 */}
                         {
                             this.props.continuous && !this.state.smallP &&
                             <TouchableOpacity
-                                activeOpacity={0.5}
-                                style={{ padding: 10, bottom: 0, right: 5, zIndex: 9999, alignSelf: "flex-end" }}
+                                activeOpacity={1}
+                                style={{ padding: 10 }}
                                 onPress={() => { this.setState({ showChangeList: true, showLockCont: false }) }}
                             >
                                 <Text style={{ color: "#fff" }}>选集</Text>
@@ -986,8 +990,8 @@ class VideoPlayer extends React.Component {
                         }
                         {/* 全屏 */}
                         <TouchableOpacity
-                            activeOpacity={0.5}
-                            style={{ padding: 10, width: 40, bottom: 0, right: 5, zIndex: 9999, alignSelf: "flex-end", justifyContent: "flex-end" }}
+                            activeOpacity={1}
+                            style={{ padding: 10 }}
                             onPress={() => {
                                 if (this.state.smallP) {
                                     this.changeAllBox()
@@ -1122,11 +1126,6 @@ class VideoPlayer extends React.Component {
         )
     }
 }
-
-const s = StyleSheet.create({
-    touchs: { bottom: 0, left: 5, padding: 10, zIndex: 999, }
-
-})
 
 export const NgxuSetting = function () {
     this.hideAndroidBottom = () => {
