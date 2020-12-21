@@ -1271,7 +1271,7 @@ class VideoPlayer extends React.Component {
               <TouchableOpacity activeOpacity={1} onPress={this.showConts}>
                 <Video
                   key={this.url}
-                  source={{ uri: this.props.url }}
+                  source={{ uri: this.props.url, headers: this.props.headers || {} }}
                   ref={(ref) => {
                     this.player = ref;
                   }}
