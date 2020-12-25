@@ -1128,6 +1128,7 @@ class VideoPlayer extends React.Component {
               style={{
                 flexDirection: "row",
                 justifyContent: "flex-start",
+                alignSelf: "flex-start",
                 paddingHorizontal: 5,
               }}
             >
@@ -1186,13 +1187,14 @@ class VideoPlayer extends React.Component {
               playDotX={this.playDotX}
               playBufferX={this.playBufferX}
               ismoveDot={this.ismoveDot}
-            />}
+            /> || <View style={{flex: 1}}/>}
 
             {/* 底部右侧按钮 */}
             <View
               style={{
                 flexDirection: "row",
                 justifyContent: "flex-end",
+                alignSelf: "flex-end",
                 paddingHorizontal: 5,
               }}
             >
