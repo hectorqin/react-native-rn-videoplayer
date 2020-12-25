@@ -666,6 +666,7 @@ class VideoPlayer extends React.Component {
         // 最近一次的移动距离为gestureState.move{X,Y}
 
         if (this.state.showOpenVip || !this.state.onload) return; //需要权限 或者视频还不可以播放时停止不允许滑动进度条
+        if (this.props.isLive) return; // 直播不允许拖动
         this.realMarginLeft = gestureState.moveX - this.touchX - 85;
         if (this.realMarginLeft >= this.state.width - 200) {
           this.realMarginLeft = this.state.width - 200;
