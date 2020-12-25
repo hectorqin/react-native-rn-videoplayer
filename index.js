@@ -1000,27 +1000,29 @@ class VideoPlayer extends React.Component {
             position: "absolute",
             left: 0,
             right: 0,
-            top: 0,
+            top: topContsTop,
             width: this.state.width,
             opacity: this.state.opacity,
             height: 30,
+            paddingHorizontal: 5,
             flexDirection: "row"
           }}
         >
           {/* 顶部阴影 */}
           <LinearGradient
             colors={["rgba(0,0,0,0.4)", "rgba(0,0,0,0.1)", "rgba(0,0,0,0)"]}
-            style={{ height: LinearGradientHeight, width: this.state.width }}
+            style={{
+              height: LinearGradientHeight,
+              width: this.state.width,
+              position: "absolute",
+              top: topContsTop,
+             }}
           ></LinearGradient>
           {/* 返回键 */}
           {preShowSmallCont && (
             <TouchableOpacity
               style={{
-                position: "absolute",
-                top: topContsTop,
-                left: smallP ? 5 : this.props.continuous ? 45 : 5,
                 padding: 10,
-                zIndex: 999,
               }}
               //如果是全屏 点击返回键是切换到小屏  反之返回上个页面
               onPress={() => {
@@ -1042,24 +1044,17 @@ class VideoPlayer extends React.Component {
           {/* 视频标题 */}
           {this.props.title && (
             <View style={{
-              position: "absolute",
-              top: topContsTop,
-              left: preShowSmallCont ? 50 : 5,
-              zIndex: 10,
+              flex: 1,
               paddingVertical: 10,
             }}>
-              <Text style={{ color: "#fff" }}>{this.props.title}</Text>
+              <Text style={{ color: "#fff" }} numberOfLines={1}>{this.props.title}</Text>
             </View>
           )}
-          {/* 收藏|更多 */}
+          {/* 顶部右侧按钮 */}
           <View
             style={{
-              position: "absolute",
-              top: topContsTop,
-              right: smallP ? 5 : this.props.continuous ? 45 : 5,
               flexWrap: "nowrap",
               flexDirection: "row",
-              zIndex: 10,
             }}
           >
             {/* 自定义顶部右侧开始位置按钮 */}
