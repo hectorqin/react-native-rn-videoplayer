@@ -875,30 +875,34 @@ class VideoPlayer extends React.Component {
 
   onLoad = (data) => {
     this.props.onLoad && this.props.onLoad(data);
+    let duration = data.duration;
+    if (this.props.isLive) {
+      duration=0;
+    }
     //视频总长度
     this.setState({
-      duration: data.duration,
-      allTime: formatSeconds(data.duration),
+      duration: duration,
+      allTime: formatSeconds(duration),
       showChangeList: false,
       admRePlay: false,
       onload: true,
     });
     //进度条动画
     this.playDotX = this.dotX.interpolate({
-      inputRange: [0, data.duration],
+      inputRange: [0, duration],
       outputRange: [0, this.state.width - 200],
       extrapolate: "clamp",
     });
     //隐藏控件时，最下面的进度动画
 
     this.playhideContsDotX = this.dotX.interpolate({
-      inputRange: [0, data.duration],
+      inputRange: [0, duration],
       outputRange: [0, this.state.width],
       extrapolate: "clamp",
     });
 
     this.playBufferX = this.bufferX.interpolate({
-      inputRange: [0, data.duration],
+      inputRange: [0, duration],
       outputRange: [0, this.state.width - 200],
       extrapolate: "clamp",
     });
@@ -1166,7 +1170,7 @@ class VideoPlayer extends React.Component {
             </View>
 
             {/* 进度条 缓存条*/}
-            <Speed
+            {!this.props.isLive && <Speed
               {...this.state}
               color={this.props.speedColor}
               cachColor={this.props.cachColor}
@@ -1181,7 +1185,7 @@ class VideoPlayer extends React.Component {
               playDotX={this.playDotX}
               playBufferX={this.playBufferX}
               ismoveDot={this.ismoveDot}
-            />
+            />}
 
             {/* 底部右侧按钮 */}
             <View
