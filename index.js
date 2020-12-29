@@ -177,8 +177,8 @@ class VideoPlayer extends React.Component {
         smallP: false,
         showConts: false,
         showLockCont: false,
-        LinearGradientHeight: 100,
-        topContsTop: 30,
+        LinearGradientHeight: 60,
+        topContsTop: 0,
         bottomContsBottom: this.props.continuous ? 30 : 0,
       },
       () => {
@@ -1003,9 +1003,10 @@ class VideoPlayer extends React.Component {
             top: topContsTop,
             width: this.state.width,
             opacity: this.state.opacity,
-            height: 30,
+            height: 50,
             paddingHorizontal: 5,
-            flexDirection: "row"
+            flexDirection: "row",
+            alignItems: 'center'
           }}
         >
           {/* 顶部阴影 */}
