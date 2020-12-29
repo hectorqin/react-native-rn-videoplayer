@@ -1096,7 +1096,7 @@ class VideoPlayer extends React.Component {
             opacity: this.state.opacity,
             zIndex: 999,
             position: "absolute",
-            height: 50,
+            height: this.state.smallP ? 40 : 45,
           }}
         >
           {/* 底部阴影 */}
