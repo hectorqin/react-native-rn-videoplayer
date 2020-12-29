@@ -1045,7 +1045,10 @@ class VideoPlayer extends React.Component {
           {this.props.title && (
             <View style={{
               flex: 1,
-              paddingVertical: 10,
+              height: 40,
+              paddingLeft: 5,
+              flexDirection: 'column',
+              justifyContent: 'center',
             }}>
               <Text style={{ color: "#fff" }} numberOfLines={1}>{this.props.title}</Text>
             </View>
