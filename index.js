@@ -93,7 +93,7 @@ class VideoPlayer extends React.Component {
         videoStarTimeWidth: 0, //现在的播放时间的宽度
         videoEndTimeWidth: 0, //总时长的宽度
         height: (width * 210) / 375,
-        LinearGradientHeight: 60, //控件阴影高度
+        LinearGradientHeight: 50, //控件阴影高度
         topContsTop: 0, //上部分控件的top定位值
         bottomContsBottom: 0, //下部分控件的bottom定位值
         showOpenVip: false, //是否显示开通vip提示
@@ -177,7 +177,7 @@ class VideoPlayer extends React.Component {
         smallP: false,
         showConts: false,
         showLockCont: false,
-        LinearGradientHeight: 60,
+        LinearGradientHeight: 50,
         topContsTop: 0,
         bottomContsBottom: this.props.continuous ? 30 : 0,
       },
@@ -218,7 +218,7 @@ class VideoPlayer extends React.Component {
         smallP: true,
         showConts: false,
         showLockCont: false,
-        LinearGradientHeight: 60,
+        LinearGradientHeight: 50,
         topContsTop: 0,
         bottomContsBottom: 0,
       },
@@ -1003,10 +1003,9 @@ class VideoPlayer extends React.Component {
             top: topContsTop,
             width: this.state.width,
             opacity: this.state.opacity,
-            height: 50,
+            height: 40,
             paddingHorizontal: 5,
-            flexDirection: "row",
-            alignItems: 'center'
+            flexDirection: "row"
           }}
         >
           {/* 顶部阴影 */}
@@ -1018,7 +1017,7 @@ class VideoPlayer extends React.Component {
               position: "absolute",
               top: topContsTop,
              }}
-          ></LinearGradient>
+          />
           {/* 返回键 */}
           {preShowSmallCont && (
             <TouchableOpacity
@@ -1107,7 +1106,7 @@ class VideoPlayer extends React.Component {
               height: LinearGradientHeight,
               width: this.state.width,
               position: "absolute",
-              bottom: this.state.smallP ? 0 : -bottomContsBottom,
+              bottom: bottomContsBottom,
             }}
           />
 
