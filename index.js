@@ -428,8 +428,8 @@ class VideoPlayer extends React.Component {
 
         if (this.recordHandeY.length === this.props.panSamplingTimes) {
           if (
-            Math.abs(this.recordHandeY[9] - this.recordHandeY[0]) >
-            Math.abs(this.recordHandeX[9] - this.recordHandeX[0])
+            Math.abs(this.recordHandeY[this.props.panSamplingTimes - 1] - this.recordHandeY[0]) >
+            Math.abs(this.recordHandeX[this.props.panSamplingTimes - 1] - this.recordHandeX[0])
           ) {
             //console.log("上下滑动")
             if (Math.abs(this.moveYData) > 5) {
