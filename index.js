@@ -55,6 +55,7 @@ class VideoPlayer extends React.Component {
     bottomSpeedColor: "#e54602",
     cachColor: "#ffffff",
     allSpeedColor: "rgba(0,0,0,0.4)",
+    panSamplingTimes: 10,
   };
   constructor(props) {
     super(props);
@@ -407,7 +408,7 @@ class VideoPlayer extends React.Component {
         });
       },
       onPanResponderMove: (evt, gestureState) => {
-        if (this.recordHandeY.length < 10) {
+        if (this.recordHandeY.length < this.props.panSamplingTimes) {
           this.recordHandeY.push(evt.nativeEvent.pageY);
 
           this.recordHandeX.push(evt.nativeEvent.pageX);
@@ -425,7 +426,7 @@ class VideoPlayer extends React.Component {
 
         this.speedDataX = gestureState.moveX - this.startX;
 
-        if (this.recordHandeY.length === 10) {
+        if (this.recordHandeY.length === this.props.panSamplingTimes) {
           if (
             Math.abs(this.recordHandeY[9] - this.recordHandeY[0]) >
             Math.abs(this.recordHandeX[9] - this.recordHandeX[0])
