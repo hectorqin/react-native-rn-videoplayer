@@ -117,7 +117,7 @@ class VideoPlayer extends React.Component {
     //离开该页面 还原屏幕亮度
     if (this.adminBrightness) {
       Platform.OS === "android"
-        ? NativeModules.AppBrightness.setAppBrightness(this.adminBrightness)
+        ? NativeModules.AppBrightness.setAppBrightness(-1)
         : SystemSetting.setBrightnessForce(this.adminBrightness).then(
             (success) => {
               !success &&
