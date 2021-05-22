@@ -57,6 +57,7 @@ class VideoPlayer extends React.Component {
     cachColor: "#ffffff",
     allSpeedColor: "rgba(0,0,0,0.4)",
     panSamplingTimes: 10,
+    bottomBarOccupiedWidth: 0,
   };
   constructor(props) {
     super(props);
@@ -105,7 +106,7 @@ class VideoPlayer extends React.Component {
         showDrTime: false, //拖动进度条时显示的时间进度
         showChangeList: false, //控制是否显示全屏选集
         showLockCont: false, //锁的显示状态
-        portrait: true, // 横竖屏切换
+        portrait: false, // 横竖屏切换
       });
     this.animatedonBuffer = this.animatedonBuffer.bind(this);
   }
@@ -132,6 +133,13 @@ class VideoPlayer extends React.Component {
                 ]);
             }
           );
+    }
+  }
+  bottomBarOccupiedWidth = () => {
+    if (this.state.smallP) {
+      return 200 + this.props.bottomBarOccupiedWidth;
+    } else {
+      return 240 + this.props.bottomBarOccupiedWidth;
     }
   }
 
@@ -186,14 +194,14 @@ class VideoPlayer extends React.Component {
             // 更新播放进度
             this.playDotX = this.dotX.interpolate({
               inputRange: [0, this.state.duration],
-              outputRange: [0, width + 0 - 240], //StatusBar.currentHeight
+              outputRange: [0, width + 0 - this.bottomBarOccupiedWidth()], //StatusBar.currentHeight
               extrapolate: "clamp",
             });
 
             // 更新缓存进度
             this.playBufferX = this.bufferX.interpolate({
               inputRange: [0, this.state.duration],
-              outputRange: [0, width + 0 - 240], //StatusBar.currentHeight
+              outputRange: [0, width + 0 - this.bottomBarOccupiedWidth()], //StatusBar.currentHeight
               extrapolate: "clamp",
             });
           }
@@ -219,14 +227,14 @@ class VideoPlayer extends React.Component {
             // 更新播放进度
             this.playDotX = this.dotX.interpolate({
               inputRange: [0, this.state.duration],
-              outputRange: [0, height + 0 - 240], //StatusBar.currentHeight
+              outputRange: [0, height + 0 - this.bottomBarOccupiedWidth()], //StatusBar.currentHeight
               extrapolate: "clamp",
             });
 
             // 更新缓存进度
             this.playBufferX = this.bufferX.interpolate({
               inputRange: [0, this.state.duration],
-              outputRange: [0, height + 0 - 240], //StatusBar.currentHeight
+              outputRange: [0, height + 0 - this.bottomBarOccupiedWidth()], //StatusBar.currentHeight
               extrapolate: "clamp",
             });
           }
@@ -260,14 +268,14 @@ class VideoPlayer extends React.Component {
         // 更新播放进度
         this.playDotX = this.dotX.interpolate({
           inputRange: [0, this.state.duration],
-          outputRange: [0, height + 0 - 240], //StatusBar.currentHeight
+          outputRange: [0, height + 0 - this.bottomBarOccupiedWidth()], //StatusBar.currentHeight
           extrapolate: "clamp",
         });
 
         // 更新缓存进度
         this.playBufferX = this.bufferX.interpolate({
           inputRange: [0, this.state.duration],
-          outputRange: [0, height + 0 - 240], //StatusBar.currentHeight
+          outputRange: [0, height + 0 - this.bottomBarOccupiedWidth()], //StatusBar.currentHeight
           extrapolate: "clamp",
         });
       }
@@ -616,7 +624,7 @@ class VideoPlayer extends React.Component {
 
               /**调节进度结束**/
               this.changeSpeedTip({ opacity: 1, display: null, width: null });
-              const speedWidth = this.state.smallP ? 200 : 240;
+              const occupiedWidth = this.bottomBarOccupiedWidth();
 
               clearTimeout(this.TimeHideConts); //拖动进度条时禁止隐藏控件
               this.realMarginLeft = this.speedDataX / 2; //2为快进退的手势速度 必须大于0
@@ -636,7 +644,7 @@ class VideoPlayer extends React.Component {
                   formatSeconds(this.speedalltime)
                 );
               this.dotspeedWidth =
-                ((width - speedWidth) / duration) * this.speedalltime;
+                ((width - occupiedWidth) / duration) * this.speedalltime;
               this.reasut = this.dotspeedWidth;
               this.dotspeed && this.dotspeed.setdotWidth(this.reasut);
             }
@@ -756,7 +764,7 @@ class VideoPlayer extends React.Component {
           //         goSpeedTime: formatSeconds((this.realMarginLeft) / (this.state.width - 200) * this.state.duration)
           //     })
 
-          const speedWidth = this.state.smallP ? 200 : 240;
+          const occupiedWidth = this.bottomBarOccupiedWidth();
           this.SpeedTipTimeRef &&
             this.SpeedTipTimeRef.setgoSpeedTime(
               formatSeconds(
@@ -765,8 +773,8 @@ class VideoPlayer extends React.Component {
               )
             );
           this.dotspeed.setdotWidth(
-            evt.nativeEvent.pageX - 100 >= this.state.width - speedWidth
-              ? this.state.width - speedWidth
+            evt.nativeEvent.pageX - 100 >= this.state.width - occupiedWidth
+              ? this.state.width - occupiedWidth
               : evt.nativeEvent.pageX - 100
           );
         }
