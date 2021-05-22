@@ -35,6 +35,7 @@ import {
   SvgVideoBack,
   SvgVideoScang,
   SvgVideoClose,
+  SvgVideoOrientationToggle,
 } from "./component/svg";
 import SystemSetting from "react-native-system-setting";
 import LinearGradient from "react-native-linear-gradient";
@@ -104,6 +105,7 @@ class VideoPlayer extends React.Component {
         showDrTime: false, //拖动进度条时显示的时间进度
         showChangeList: false, //控制是否显示全屏选集
         showLockCont: false, //锁的显示状态
+        portrait: true, // 横竖屏切换
       });
     this.animatedonBuffer = this.animatedonBuffer.bind(this);
   }
@@ -160,7 +162,78 @@ class VideoPlayer extends React.Component {
       ? NativeModules.HideBottomNa.show()
       : NativeModules.RNIndicator.alwaysVisible();
   };
+  // 切换横竖屏
+  toggleOrientation = () => {
+    if (!this.smallP) {
+      if (!this.state.portrait) {
+        // 切换为竖屏
+        Orientation.lockToPortrait();
+        this.setState(
+          {
+            width: width + 0, //StatusBar.currentHeight
+            height: height,
+            statusBarH: 0,
+            smallP: false,
+            showConts: false,
+            showLockCont: false,
+            LinearGradientHeight: 50,
+            topContsTop: 0,
+            bottomContsBottom: this.props.continuous ? 50 : 20,  // 加 20 防误触
+            portrait: true,
+          },
+          () => {
+            StatusBar.setHidden(true);
+            // 更新播放进度
+            this.playDotX = this.dotX.interpolate({
+              inputRange: [0, this.state.duration],
+              outputRange: [0, width + 0 - 240], //StatusBar.currentHeight
+              extrapolate: "clamp",
+            });
 
+            // 更新缓存进度
+            this.playBufferX = this.bufferX.interpolate({
+              inputRange: [0, this.state.duration],
+              outputRange: [0, width + 0 - 240], //StatusBar.currentHeight
+              extrapolate: "clamp",
+            });
+          }
+        );
+      } else {
+        Orientation.lockToLandscape();
+        // 切换为横屏
+        this.setState(
+          {
+            width: height + 0, //StatusBar.currentHeight
+            height: width,
+            statusBarH: 0,
+            smallP: false,
+            showConts: false,
+            showLockCont: false,
+            LinearGradientHeight: 50,
+            topContsTop: 0,
+            bottomContsBottom: this.props.continuous ? 30 : 0,
+            portrait: false,
+          },
+          () => {
+            StatusBar.setHidden(true);
+            // 更新播放进度
+            this.playDotX = this.dotX.interpolate({
+              inputRange: [0, this.state.duration],
+              outputRange: [0, height + 0 - 240], //StatusBar.currentHeight
+              extrapolate: "clamp",
+            });
+
+            // 更新缓存进度
+            this.playBufferX = this.bufferX.interpolate({
+              inputRange: [0, this.state.duration],
+              outputRange: [0, height + 0 - 240], //StatusBar.currentHeight
+              extrapolate: "clamp",
+            });
+          }
+        );
+      }
+    }
+  };
   setAll = () => {
     this.playhideContsDotX = this.dotX.interpolate({
       inputRange: [0, this.state.duration],
@@ -187,14 +260,14 @@ class VideoPlayer extends React.Component {
         // 更新播放进度
         this.playDotX = this.dotX.interpolate({
           inputRange: [0, this.state.duration],
-          outputRange: [0, height + 0 - 200], //StatusBar.currentHeight
+          outputRange: [0, height + 0 - 240], //StatusBar.currentHeight
           extrapolate: "clamp",
         });
 
         // 更新缓存进度
         this.playBufferX = this.bufferX.interpolate({
           inputRange: [0, this.state.duration],
-          outputRange: [0, height + 0 - 200], //StatusBar.currentHeight
+          outputRange: [0, height + 0 - 240], //StatusBar.currentHeight
           extrapolate: "clamp",
         });
       }
@@ -543,6 +616,7 @@ class VideoPlayer extends React.Component {
 
               /**调节进度结束**/
               this.changeSpeedTip({ opacity: 1, display: null, width: null });
+              const speedWidth = this.state.smallP ? 200 : 240;
 
               clearTimeout(this.TimeHideConts); //拖动进度条时禁止隐藏控件
               this.realMarginLeft = this.speedDataX / 2; //2为快进退的手势速度 必须大于0
@@ -562,7 +636,7 @@ class VideoPlayer extends React.Component {
                   formatSeconds(this.speedalltime)
                 );
               this.dotspeedWidth =
-                ((width - 200) / duration) * this.speedalltime;
+                ((width - speedWidth) / duration) * this.speedalltime;
               this.reasut = this.dotspeedWidth;
               this.dotspeed && this.dotspeed.setdotWidth(this.reasut);
             }
@@ -682,6 +756,7 @@ class VideoPlayer extends React.Component {
           //         goSpeedTime: formatSeconds((this.realMarginLeft) / (this.state.width - 200) * this.state.duration)
           //     })
 
+          const speedWidth = this.state.smallP ? 200 : 240;
           this.SpeedTipTimeRef &&
             this.SpeedTipTimeRef.setgoSpeedTime(
               formatSeconds(
@@ -690,8 +765,8 @@ class VideoPlayer extends React.Component {
               )
             );
           this.dotspeed.setdotWidth(
-            evt.nativeEvent.pageX - 100 >= this.state.width - 200
-              ? this.state.width - 200
+            evt.nativeEvent.pageX - 100 >= this.state.width - speedWidth
+              ? this.state.width - speedWidth
               : evt.nativeEvent.pageX - 100
           );
         }
@@ -1214,6 +1289,16 @@ class VideoPlayer extends React.Component {
                   <Text style={{ color: "#fff" }}>选集</Text>
                 </TouchableOpacity>
               )}
+              {/* 全屏切换横竖屏 */}
+              {!this.state.smallP ? <TouchableOpacity
+                activeOpacity={1}
+                style={{ padding: 10 }}
+                onPress={() => {
+                  this.toggleOrientation()
+                }}
+              >
+                <SvgVideoOrientationToggle height="20" width="20" />
+              </TouchableOpacity> : null}
               {/* 全屏 */}
               <TouchableOpacity
                 activeOpacity={1}

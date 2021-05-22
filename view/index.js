@@ -426,7 +426,8 @@ export class Speed extends Component {
 
         <View
           style={{
-            width: props.width - 180,
+            // width: props.width - 180,
+            flex: 1,
             paddingHorizontal: 10,
             flexDirection: "row",
             flexWrap: "nowrap",
@@ -496,7 +497,8 @@ export class Speed extends Component {
               height: 2,
               backgroundColor: props.allSpeedColor,
               position: "absolute",
-              width: props.width - 200,
+              // width: props.width - 200,
+              flex: 1,
               zIndex: 9,
               left: 10,
             }}
