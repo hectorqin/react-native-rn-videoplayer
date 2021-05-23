@@ -176,6 +176,11 @@ class VideoPlayer extends React.Component {
       if (!this.state.portrait) {
         // 切换为竖屏
         Orientation.lockToPortrait();
+        this.playhideContsDotX = this.dotX.interpolate({
+          inputRange: [0, this.state.duration],
+          outputRange: [0, width],
+          extrapolate: "clamp",
+        });
         this.setState(
           {
             width: width + 0, //StatusBar.currentHeight
@@ -208,6 +213,11 @@ class VideoPlayer extends React.Component {
         );
       } else {
         Orientation.lockToLandscape();
+        this.playhideContsDotX = this.dotX.interpolate({
+          inputRange: [0, this.state.duration],
+          outputRange: [0, height],
+          extrapolate: "clamp",
+        });
         // 切换为横屏
         this.setState(
           {
